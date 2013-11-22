@@ -18,6 +18,8 @@ package "build-essential"
 
 include_recipe "postgresql::server"
 
+include_recipe "imagemagick::rmagick"
+
 include_recipe "ruby_build"
 
 include_recipe "rbenv::system"
