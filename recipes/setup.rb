@@ -15,13 +15,13 @@ node.default['rbenv']['rubies'] = [ node['rails-lastmile']['ruby_version'] ]
 
 include_recipe "apt"
 package "build-essential"
+
+include_recipe "postgresql::server"
+
 include_recipe "ruby_build"
 
 include_recipe "rbenv::system"
 include_recipe "rbenv::vagrant"
-
-include_recipe "postgresql::server"
-include_recipe "postgresql::client"
 
 rbenv_global node['rails-lastmile']['ruby_version']
 rbenv_gem "bundler"
