@@ -71,7 +71,6 @@ rbenv_script "run-rails" do
   cwd app_dir
   if node['rails-lastmile']['reset_db']
     code <<-EOT1
-      export RAILS_ENV=production >> ~/.bash_profile
       bundle install RAILS_ENV=production
       bundle exec rake db:reset RAILS_ENV=production
       bundle exec rake db:test:load RAILS_ENV=production
@@ -79,7 +78,6 @@ rbenv_script "run-rails" do
     EOT1
   else
     code <<-EOT2
-      export RAILS_ENV=production >> ~/.bash_profile
       bundle install
       bundle exec rake db:create RAILS_ENV=production
       bundle exec rake db:migrate RAILS_ENV=production
