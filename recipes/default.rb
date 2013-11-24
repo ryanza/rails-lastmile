@@ -74,6 +74,7 @@ rbenv_script "run-rails" do
       bundle install RAILS_ENV=production
       bundle exec rake db:reset RAILS_ENV=production
       bundle exec rake db:test:load RAILS_ENV=production
+      bundle exec rake assets:precompile
       ps -p `cat /var/run/unicorn/master.pid` &>/dev/null || bundle exec unicorn -c /etc/unicorn.cfg -D --env #{node['rails-lastmile']['environment']}
     EOT1
   else
@@ -82,6 +83,7 @@ rbenv_script "run-rails" do
       bundle exec rake db:create RAILS_ENV=production
       bundle exec rake db:migrate RAILS_ENV=production
       bundle exec rake db:test:load RAILS_ENV=production
+      bundle exec rake assets:precompile
       ps -p `cat /var/run/unicorn/master.pid` &>/dev/null || bundle exec unicorn -c /etc/unicorn.cfg -D --env #{node['rails-lastmile']['environment']}
     EOT2
   end
