@@ -59,6 +59,12 @@ bash "change-cluster-encoding-to-utf8" do
   CODE
 end
 
+bash "create-db-user" do
+  user "postgres"
+  code <<-CODE
+    psql -c "create user dcb with createdb login encrypted password '0rsm4smn3zz'"
+  CODE
+end
 
 rbenv_script "run-rails" do
   rbenv_version node['rails-lastmile']['ruby_version']
