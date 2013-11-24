@@ -57,8 +57,6 @@ bash "change-cluster-encoding-to-utf8" do
     pg_dropcluster --stop 9.1 main
     pg_createcluster --start -e UTF-8 9.1 main
   CODE
-  
-  not_if { `sudo sudo -u postgres psql -c '\\l'`.include?(node[:rails][:app_name]) }
 end
 
 
