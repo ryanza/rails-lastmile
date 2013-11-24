@@ -15,6 +15,7 @@ app_dir = node['rails-lastmile']['app_dir']
 
 include_recipe "rails-lastmile::setup"
 
+include_recipe "postgresql::server"
 include_recipe "nginx"
 include_recipe "unicorn"
 
@@ -51,6 +52,16 @@ unicorn_config "/etc/unicorn.cfg" do
   worker_processes node[:unicorn][:worker_processes]
   before_fork node[:unicorn][:before_fork]
 end
+
+bash "change-cluster-encoding-to-utf8" do
+  code <<-CODE
+    pg_dropcluster --stop 9.1 main
+    pg_createcluster --start -e UTF-8 9.1 main
+  CODE
+  
+  not_if { `sudo sudo -u postgres psql -c '\\l'`.include?(node[:rails][:app_name]) }
+end
+
 
 rbenv_script "run-rails" do
   rbenv_version node['rails-lastmile']['ruby_version']
